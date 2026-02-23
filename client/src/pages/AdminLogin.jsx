@@ -1,3 +1,4 @@
+const API_BASE = import.meta.env.VITE_API_URL || '';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/sdet_logo.png';
@@ -15,7 +16,7 @@ export default function AdminLogin() {
     if (!email || !password) { setError('Email and password are required.'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

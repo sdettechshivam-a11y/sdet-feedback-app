@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/sdet_logo.png';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
 const API = (path, opts = {}) => {
   const token = localStorage.getItem('sdet_admin_token');
-  return fetch(`/api/admin${path}`, {
+  return fetch(`${API_BASE}/api/admin${path}`, {
     ...opts,
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -119,7 +120,7 @@ export default function AdminDashboard() {
 
   async function handleExport() {
     const token = localStorage.getItem('sdet_admin_token');
-    const res = await fetch('/api/admin/export', { headers: { Authorization: `Bearer ${token}` } });
+    const res = await fetch(`${API_BASE}/api/admin/export`, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) return;
     const blob = await res.blob();
     const url  = URL.createObjectURL(blob);

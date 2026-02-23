@@ -30,6 +30,7 @@ const NPS_LABELS = {
   9:'Very Likely', 10:'Extremely Likely',
 };
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
 const INITIAL = {
   full_name: '',
   work_email: '',
@@ -158,7 +159,7 @@ export default function FeedbackForm() {
     setSubmitting(true);
     setSubmitError('');
     try {
-      const res = await fetch('/api/feedback', {
+      const res = await fetch(`${API_BASE}/api/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
