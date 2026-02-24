@@ -15,15 +15,15 @@ const RATING_QUESTIONS = [
     question: 'How would you rate the quality and thoroughness of our testing (scoping, bug detection, edge cases, reporting, documentation)?',
   },
   {
-    field: 'rating_communication',
-    label: 'Communication and Responsiveness',
-    question: 'How satisfied are you with our communication, responsiveness, and clarity of reporting?',
-  },
+  field: 'rating_communication',
+  label: 'Communication and Responsiveness',
+  question: 'How would you rate our team in terms of communication, responsiveness, and clarity of reporting?',
+},
   {
-    field: 'rating_ownership',
-    label: 'Accountability and Ownership',
-    question: 'How satisfied are you with our team in terms of demonstrating the accountability and ownership of project delivery?',
-  },
+  field: 'rating_ownership',
+  label: 'Accountability and Ownership',
+  question: 'How would you rate our team in terms of demonstrating the accountability and ownership of project delivery?',
+},
 ];
 
 const STAR_OPTIONS = [
@@ -379,7 +379,9 @@ export default function FeedbackForm() {
                         }}>
                         <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
                           <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
-                            {q.label} <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+                            <span style={{ display: 'inline', whiteSpace: 'nowrap' }}>
+  {q.label} <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+</span>
                           </p>
                           <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>{q.question}</p>
                           {errors[q.field] && (
