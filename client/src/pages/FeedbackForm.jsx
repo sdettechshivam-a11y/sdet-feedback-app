@@ -444,7 +444,7 @@ export default function FeedbackForm() {
                                 aria-pressed={selected}
                                 aria-label={`${n} — ${INNOVATION_LABELS[n]}`}
                                 style={{
-  width: 'calc(20% - 4px)', aspectRatio: '1', borderRadius: 8,
+  width: 40, height: 40, borderRadius: 8,
   border: selected ? `2px solid ${color}` : '2px solid #CBD5E1',
   background: selected ? bg : '#F8FAFC',
   color: selected ? color : '#475569',
