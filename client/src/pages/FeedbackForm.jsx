@@ -246,7 +246,7 @@ export default function FeedbackForm() {
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1 style={{ marginBottom: '0.5rem', color: '#0F172A' }}>Share Your Feedback</h1>
             <p style={{ color: '#475569', fontSize: '0.9375rem' }}>
-              Your experience matters to us — your feedback helps us serve you better.
+              Your experience matters to us — your feedback will help us improve.
             </p>
             <p style={{ color: '#C2410C', fontSize: '0.8125rem', marginTop: '0.35rem', fontWeight: 600 }}>
               * Required information
@@ -429,7 +429,7 @@ export default function FeedbackForm() {
                       </div>
                       <div style={{ width: '100%' }}>
                         <div role="group" aria-label="Innovation and Solutioning score 1 to 10"
-                          style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+                          style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '0.5rem' }}>
                           {[1,2,3,4,5,6,7,8,9,10].map(n => {
                             const color    = n <= 4 ? '#DC2626' : n <= 7 ? '#D97706' : '#15803D';
                             const bg       = n <= 4 ? '#FEF2F2' : n <= 7 ? '#FFFBEB' : '#F0FDF4';
@@ -460,9 +460,9 @@ export default function FeedbackForm() {
                           <span>Not helpful</span><span>Extremely helpful</span>
                         </div>
                         {data.rating_accuracy > 0 && (
-                          <p aria-live="polite" style={{ marginTop: '0.35rem', fontSize: '0.8rem', color: '#475569', fontWeight: 600 }}>
-                            {INNOVATION_LABELS[data.rating_accuracy]}
-                          </p>
+                          <p aria-live="polite" style={{ marginTop: '0.35rem', fontSize: '0.875rem', color: '#475569', fontWeight: 600, textAlign: 'center' }}>
+  {INNOVATION_LABELS[data.rating_accuracy]}
+</p>
                         )}
                       </div>
                     </div>
