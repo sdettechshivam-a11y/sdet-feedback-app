@@ -87,17 +87,19 @@ function StarCard({ value, selected, onClick }) {
         if (e.key === 'ArrowRight') onClick(Math.min(value + 1, 5));
         if (e.key === 'ArrowLeft')  onClick(Math.max(value - 1, 1));
       }}
+       onFocus={e => e.currentTarget.style.outline = '3px solid #C2410C'}
+  onBlur={e => e.currentTarget.style.outline = 'none'}
       aria-pressed={selected}
       aria-label={`${value} — ${opt.label}`}
       style={{
-        flex: 1, minWidth: 0, padding: '0.6rem 0.25rem',
-        border: selected ? `2px solid ${opt.color}` : '2px solid #CBD5E1',
-        borderRadius: '8px',
-        background: selected ? opt.bg : '#F8FAFC',
-        cursor: 'pointer',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.3rem',
-        transition: 'all 0.15s', outline: 'none',
-      }}
+  flex: 1, minWidth: 0, padding: '0.6rem 0.25rem',
+  border: selected ? `2px solid ${opt.color}` : '2px solid #CBD5E1',
+  borderRadius: '8px',
+  background: selected ? opt.bg : '#F8FAFC',
+  cursor: 'pointer',
+  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.3rem',
+  transition: 'all 0.15s',
+}}
     >
       <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"
         style={{ fill: selected ? opt.color : '#CBD5E1', transition: 'fill 0.15s' }}>
@@ -372,12 +374,12 @@ export default function FeedbackForm() {
                     {RATING_QUESTIONS.map((q, idx) => (
                       <div key={q.field} data-error={!!errors[q.field]}
                         style={{
-                          display: 'flex', alignItems: 'center', gap: '1.25rem',
-                          padding: '1.1rem 1.25rem',
-                          borderTop: idx > 0 ? '1px solid #E2E8F0' : 'none',
-                          flexWrap: 'wrap',
-                        }}>
-                        <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
+  display: 'flex', alignItems: 'flex-start', gap: '1rem',
+  padding: '1.1rem 1.25rem',
+  borderTop: idx > 0 ? '1px solid #E2E8F0' : 'none',
+  flexDirection: 'column',
+}}>
+                        <div style={{ width: '100%' }}>
                           <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
   {q.label.split(' ').slice(0, -1).join(' ')}{' '}
   <span style={{ whiteSpace: 'nowrap' }}>
@@ -393,7 +395,7 @@ export default function FeedbackForm() {
                           )}
                         </div>
                         <div role="group" aria-label={`Rating for ${q.label}`}
-                          style={{ flex: 1, display: 'flex', gap: '0.4rem', minWidth: 220 }}>
+  style={{ display: 'flex', gap: '0.4rem', width: '100%' }}>
                           {STAR_OPTIONS.map(opt => (
                             <StarCard key={opt.value} value={opt.value}
                               selected={data[q.field] === opt.value}
@@ -406,12 +408,13 @@ export default function FeedbackForm() {
                     {/* Q4: Innovation and Solutioning — 1-10 scale */}
                     <div data-error={!!errors.rating_accuracy}
                       style={{
-                        display: 'flex', alignItems: 'center', gap: '1.25rem',
-                        padding: '1.1rem 1.25rem',
-                        borderTop: '1px solid #E2E8F0',
-                        flexWrap: 'wrap',
-                      }}>
-                      <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
+  display: 'flex', alignItems: 'flex-start', gap: '1rem',
+  padding: '1.1rem 1.25rem',
+  borderTop: '1px solid #E2E8F0',
+  flexDirection: 'column',
+}}
+>
+                      <div style={{ width: '100%' }}>
                         <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
                           Innovation and Solutioning <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
                         </p>
@@ -424,7 +427,7 @@ export default function FeedbackForm() {
                           </p>
                         )}
                       </div>
-                      <div style={{ flex: 1, minWidth: 220 }}>
+                      <div style={{ width: '100%' }}>
                         <div role="group" aria-label="Innovation and Solutioning score 1 to 10"
                           style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
                           {[1,2,3,4,5,6,7,8,9,10].map(n => {
@@ -537,9 +540,9 @@ export default function FeedbackForm() {
                       onFocus={e => { e.target.style.borderColor = '#C2410C'; e.target.style.boxShadow = '0 0 0 3px rgba(194,65,12,0.12)'; }}
                       onBlur={e => { e.target.style.borderColor = '#CBD5E1'; e.target.style.boxShadow = 'none'; }}
                     />
-                    <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginTop: '0.25rem' }}>
-                      {data.improvement_area.length}/1000
-                    </p>
+                    <p style={{ fontSize: '0.8rem', color: '#64748B', marginTop: '0.25rem' }}>
+  {data.improvement_area.length}/1000
+</p>
                   </div>
                 </div>
               </>
