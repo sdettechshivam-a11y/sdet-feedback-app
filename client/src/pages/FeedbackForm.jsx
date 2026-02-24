@@ -2,46 +2,64 @@ import { useState } from 'react';
 import AppHeader from '../components/AppHeader';
 
 const QUALITY_OPTIONS = [
-  { value: 'Exceptional',    color: '#15803D', bg: '#F0FDF4', border: '#86EFAC', icon: '★' },
-  { value: 'Above Average',  color: '#65A30D', bg: '#F7FEE7', border: '#BEF264', icon: '↑' },
-  { value: 'Average',        color: '#D97706', bg: '#FFFBEB', border: '#FDE68A', icon: '→' },
-  { value: 'Below Average',  color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', icon: '↓' },
+  { value: 'Exceptional',   color: '#15803D', bg: '#F0FDF4', icon: '★' },
+  { value: 'Above Average', color: '#65A30D', bg: '#F7FEE7', icon: '↑' },
+  { value: 'Average',       color: '#D97706', bg: '#FFFBEB', icon: '→' },
+  { value: 'Below Average', color: '#DC2626', bg: '#FEF2F2', icon: '↓' },
 ];
 
 const RATING_QUESTIONS = [
-  { field: 'rating_scope',         label: 'Testing Scope',      question: 'Did we clearly understand and define the testing scope for your project?' },
-  { field: 'rating_communication', label: 'Communication',      question: 'How effectively did our team communicate throughout the engagement?' },
-  { field: 'rating_delivery',      label: 'Timely Delivery',    question: 'Were we able to meet your project deadlines consistently?' },
-  { field: 'rating_accuracy',      label: 'Accuracy & Quality', question: 'How accurate and thorough was our testing?' },
-  { field: 'rating_ownership',     label: 'Ownership',          question: 'Did our team take full ownership and accountability of their responsibilities?' },
+  {
+    field: 'rating_scope',
+    label: 'Quality of Testing',
+    question: 'How would you rate the quality and thoroughness of our testing (scoping, bug detection, edge cases, reporting, documentation)?',
+  },
+  {
+    field: 'rating_communication',
+    label: 'Communication and Responsiveness',
+    question: 'How satisfied are you with our communication, responsiveness, and clarity of reporting?',
+  },
+  {
+    field: 'rating_ownership',
+    label: 'Accountability and Ownership',
+    question: 'How satisfied are you with our team in terms of demonstrating the accountability and ownership of project delivery?',
+  },
 ];
 
 const STAR_OPTIONS = [
   { value: 1, label: 'Poor',      color: '#DC2626', bg: '#FEF2F2' },
-  { value: 2, label: 'Fair',      color: '#C2410C', bg: '#FFF7ED' },
+  { value: 2, label: 'Average',   color: '#C2410C', bg: '#FFF7ED' },
   { value: 3, label: 'Good',      color: '#D97706', bg: '#FFFBEB' },
   { value: 4, label: 'Very Good', color: '#65A30D', bg: '#F7FEE7' },
   { value: 5, label: 'Excellent', color: '#15803D', bg: '#F0FDF4' },
 ];
 
-const NPS_LABELS = {
-  1:'Not at all likely', 2:'Not at all likely', 3:'Unlikely', 4:'Unlikely',
-  5:'Neutral', 6:'Neutral', 7:'Likely', 8:'Likely',
-  9:'Very Likely', 10:'Extremely Likely',
+const INNOVATION_LABELS = {
+  1: 'Not helpful',      2: 'Not helpful',
+  3: 'Slightly helpful', 4: 'Slightly helpful',
+  5: 'Neutral',          6: 'Neutral',
+  7: 'Helpful',          8: 'Helpful',
+  9: 'Very helpful',     10: 'Extremely helpful',
 };
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+const NPS_LABELS = {
+  1: 'Not at all likely', 2: 'Not at all likely',
+  3: 'Unlikely',          4: 'Unlikely',
+  5: 'Neutral',           6: 'Neutral',
+  7: 'Likely',            8: 'Likely',
+  9: 'Very Likely',       10: 'Extremely Likely',
+};
+
 const INITIAL = {
-  full_name: '',
-  work_email: '',
-  overall_quality: '',
-  rating_scope: 0,
+  full_name:            '',
+  work_email:           '',
+  overall_quality:      '',
+  rating_scope:         0,
   rating_communication: 0,
-  rating_delivery: 0,
-  rating_accuracy: 0,
-  rating_ownership: 0,
-  nps_score: 0,
-  improvement_area: '',
+  rating_ownership:     0,
+  rating_accuracy:      0,
+  nps_score:            0,
+  improvement_area:     '',
 };
 
 function SectionHeader({ children }) {
@@ -120,15 +138,19 @@ function validate(data) {
     errs.overall_quality = 'Please select an option to continue.';
 
   if (!isBelow) {
-    if (!data.nps_score)
-      errs.nps_score = 'Please select a score.';
     RATING_QUESTIONS.forEach(q => {
       if (!data[q.field]) errs[q.field] = 'Please select a rating.';
     });
+    if (!data.rating_accuracy)
+      errs.rating_accuracy = 'Please select a score.';
+    if (!data.nps_score)
+      errs.nps_score = 'Please select a score.';
   }
 
   return errs;
 }
+
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 export default function FeedbackForm() {
   const [data, setData]               = useState(INITIAL);
@@ -137,8 +159,8 @@ export default function FeedbackForm() {
   const [submitted, setSubmitted]     = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const isBelow         = data.overall_quality === 'Below Average';
-  const showFullForm    = ['Exceptional', 'Above Average', 'Average'].includes(data.overall_quality);
+  const isBelow      = data.overall_quality === 'Below Average';
+  const showFullForm = ['Exceptional', 'Above Average', 'Average'].includes(data.overall_quality);
 
   function set(field, val) {
     setData(d => ({ ...d, [field]: val }));
@@ -175,7 +197,7 @@ export default function FeedbackForm() {
     }
   }
 
-  // ── Thank you screen ──
+  // Thank you screen
   if (submitted) {
     return (
       <div className="page-wrapper">
@@ -219,7 +241,6 @@ export default function FeedbackForm() {
       <main id="main" style={{ padding: '2rem 1rem 4rem', background: '#F4F6FB' }}>
         <div style={{ maxWidth: 740, margin: '0 auto' }}>
 
-          {/* Page heading */}
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1 style={{ marginBottom: '0.5rem', color: '#0F172A' }}>Share Your Feedback</h1>
             <p style={{ color: '#475569', fontSize: '0.9375rem' }}>
@@ -232,7 +253,7 @@ export default function FeedbackForm() {
 
           <form onSubmit={handleSubmit} noValidate aria-label="Client feedback form">
 
-            {/* ── SECTION 1: Identity + Overall Quality ── */}
+            {/* SECTION 1 — Details + Overall Quality */}
             <div style={{ marginBottom: '1.5rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
               <SectionHeader>Your Details *</SectionHeader>
               <div style={{ background: '#FFFFFF', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
@@ -288,42 +309,26 @@ export default function FeedbackForm() {
                 {/* Overall Quality */}
                 <div data-error={!!errors.overall_quality}>
                   <p style={{ fontWeight: 600, marginBottom: '0.75rem', fontSize: '0.9375rem', color: '#1E293B' }}>
-                    How would you rate our Overall Quality of Service?{' '}
+                    How would you rate our software testing services overall?{' '}
                     <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
                   </p>
-                  <div
-                    role="group"
-                    aria-label="Overall quality of service rating"
-                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}
-                  >
+                  <div role="group" aria-label="Overall quality rating"
+                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
                     {QUALITY_OPTIONS.map(opt => {
                       const selected = data.overall_quality === opt.value;
                       return (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          aria-pressed={selected}
+                        <button key={opt.value} type="button" aria-pressed={selected}
                           onClick={() => set('overall_quality', opt.value)}
                           style={{
                             padding: '0.875rem 0.5rem',
                             border: selected ? `2px solid ${opt.color}` : '2px solid #CBD5E1',
-                            borderRadius: 10,
-                            background: selected ? opt.bg : '#F8FAFC',
-                            cursor: 'pointer',
-                            display: 'flex', flexDirection: 'column',
+                            borderRadius: 10, background: selected ? opt.bg : '#F8FAFC',
+                            cursor: 'pointer', display: 'flex', flexDirection: 'column',
                             alignItems: 'center', gap: '0.4rem',
-                            transition: 'all 0.15s',
-                            outline: 'none',
-                          }}
-                        >
-                          <span style={{ fontSize: '1.5rem', lineHeight: 1 }} aria-hidden="true">
-                            {opt.icon}
-                          </span>
-                          <span style={{
-                            fontSize: '0.8125rem', fontWeight: 700,
-                            color: selected ? opt.color : '#475569',
-                            textAlign: 'center', lineHeight: 1.3,
+                            transition: 'all 0.15s', outline: 'none',
                           }}>
+                          <span style={{ fontSize: '1.5rem', lineHeight: 1 }} aria-hidden="true">{opt.icon}</span>
+                          <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: selected ? opt.color : '#475569', textAlign: 'center', lineHeight: 1.3 }}>
                             {opt.value}
                           </span>
                         </button>
@@ -339,51 +344,141 @@ export default function FeedbackForm() {
               </div>
             </div>
 
-            {/* ── BELOW AVERAGE: Sorry message ── */}
+            {/* Below Average — sorry message */}
             {isBelow && (
               <div style={{
-                marginBottom: '1.5rem',
-                background: '#FFF7ED',
-                border: '1px solid #FED7AA',
-                borderLeft: '4px solid #C2410C',
-                borderRadius: 10,
-                padding: '1.5rem',
+                marginBottom: '1.5rem', background: '#FFF7ED',
+                border: '1px solid #FED7AA', borderLeft: '4px solid #C2410C',
+                borderRadius: 10, padding: '1.5rem',
               }} role="note" aria-live="polite">
                 <p style={{ fontWeight: 700, color: '#9A3412', marginBottom: '0.5rem', fontSize: '1rem' }}>
                   We're Sorry to Hear That
                 </p>
                 <p style={{ color: '#78350F', fontSize: '0.9375rem', lineHeight: 1.6 }}>
-                  We sincerely apologise that your experience did not meet your expectations.
-                  Your feedback is important to us, and we are committed to reviewing it carefully
-                  and taking the appropriate steps to improve. We will follow up with you shortly.
+                  We sincerely apologise for not meeting your expectations. Your feedback is important to us and we are committed to reviewing it carefully and taking the appropriate steps to improve. We will follow up with you shortly.
                 </p>
               </div>
             )}
 
-            {/* ── FULL FORM: shown for Exceptional, Above Average, Average ── */}
+            {/* Full form — shown for Exceptional, Above Average, Average */}
             {showFullForm && (
               <>
-                {/* Q2: NPS */}
+                {/* Q1–Q3 Star Ratings + Q4 Innovation 1-10 */}
+                <div style={{ marginBottom: '1.5rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+                  <SectionHeader>How would you rate us on the following? *</SectionHeader>
+                  <div style={{ background: '#FFFFFF' }}>
+
+                    {/* Q1–Q3: Star rating questions */}
+                    {RATING_QUESTIONS.map((q, idx) => (
+                      <div key={q.field} data-error={!!errors[q.field]}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '1.25rem',
+                          padding: '1.1rem 1.25rem',
+                          borderTop: idx > 0 ? '1px solid #E2E8F0' : 'none',
+                          flexWrap: 'wrap',
+                        }}>
+                        <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
+                          <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
+                            {q.label} <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+                          </p>
+                          <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>{q.question}</p>
+                          {errors[q.field] && (
+                            <p role="alert" style={{ color: '#DC2626', fontSize: '0.775rem', marginTop: '0.25rem', fontWeight: 600 }}>
+                              ⚠ {errors[q.field]}
+                            </p>
+                          )}
+                        </div>
+                        <div role="group" aria-label={`Rating for ${q.label}`}
+                          style={{ flex: 1, display: 'flex', gap: '0.4rem', minWidth: 220 }}>
+                          {STAR_OPTIONS.map(opt => (
+                            <StarCard key={opt.value} value={opt.value}
+                              selected={data[q.field] === opt.value}
+                              onClick={v => set(q.field, v)} />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Q4: Innovation and Solutioning — 1-10 scale */}
+                    <div data-error={!!errors.rating_accuracy}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: '1.25rem',
+                        padding: '1.1rem 1.25rem',
+                        borderTop: '1px solid #E2E8F0',
+                        flexWrap: 'wrap',
+                      }}>
+                      <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
+                        <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
+                          Innovation and Solutioning <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+                        </p>
+                        <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>
+                          On a scale of 1–10, how do you rate our solution and innovation that has impacted the outcomes in your projects?
+                        </p>
+                        {errors.rating_accuracy && (
+                          <p role="alert" style={{ color: '#DC2626', fontSize: '0.775rem', marginTop: '0.25rem', fontWeight: 600 }}>
+                            ⚠ {errors.rating_accuracy}
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 220 }}>
+                        <div role="group" aria-label="Innovation and Solutioning score 1 to 10"
+                          style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+                          {[1,2,3,4,5,6,7,8,9,10].map(n => {
+                            const color    = n <= 4 ? '#DC2626' : n <= 7 ? '#D97706' : '#15803D';
+                            const bg       = n <= 4 ? '#FEF2F2' : n <= 7 ? '#FFFBEB' : '#F0FDF4';
+                            const selected = data.rating_accuracy === n;
+                            return (
+                              <button key={n} type="button"
+                                onClick={() => set('rating_accuracy', n)}
+                                onKeyDown={e => {
+                                  if (e.key === 'ArrowRight') set('rating_accuracy', Math.min(n + 1, 10));
+                                  if (e.key === 'ArrowLeft')  set('rating_accuracy', Math.max(n - 1, 1));
+                                }}
+                                aria-pressed={selected}
+                                aria-label={`${n} — ${INNOVATION_LABELS[n]}`}
+                                style={{
+                                  width: 40, height: 40, borderRadius: 8,
+                                  border: selected ? `2px solid ${color}` : '2px solid #CBD5E1',
+                                  background: selected ? bg : '#F8FAFC',
+                                  color: selected ? color : '#475569',
+                                  fontWeight: 700, fontSize: '0.9rem',
+                                  cursor: 'pointer', fontFamily: 'inherit',
+                                  transition: 'all 0.15s',
+                                }}
+                              >{n}</button>
+                            );
+                          })}
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748B' }} aria-hidden="true">
+                          <span>Not helpful</span><span>Extremely helpful</span>
+                        </div>
+                        {data.rating_accuracy > 0 && (
+                          <p aria-live="polite" style={{ marginTop: '0.35rem', fontSize: '0.8rem', color: '#475569', fontWeight: 600 }}>
+                            {INNOVATION_LABELS[data.rating_accuracy]}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Recommendation */}
                 <div style={{ marginBottom: '1.5rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
                   <SectionHeader>Recommendation *</SectionHeader>
                   <div style={{ background: '#FFFFFF', padding: '1.5rem' }} data-error={!!errors.nps_score}>
                     <p style={{ fontWeight: 600, fontSize: '0.9375rem', color: '#1E293B', marginBottom: '1.1rem' }}>
-                      Based on your experience, how likely are you to recommend SDET Tech to others?{' '}
+                      How likely are you to recommend our services to others?{' '}
                       <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
                     </p>
-                    <div
-                      role="group"
-                      aria-label="Likelihood to recommend, 1 to 10"
-                      style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '0.5rem' }}
-                    >
+                    <div role="group" aria-label="Likelihood to recommend, 1 to 10"
+                      style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '0.5rem' }}>
                       {[1,2,3,4,5,6,7,8,9,10].map(n => {
                         const color    = n <= 6 ? '#DC2626' : n <= 8 ? '#D97706' : '#15803D';
                         const bg       = n <= 6 ? '#FEF2F2' : n <= 8 ? '#FFFBEB' : '#F0FDF4';
                         const selected = data.nps_score === n;
                         return (
-                          <button
-                            key={n}
-                            type="button"
+                          <button key={n} type="button"
                             onClick={() => set('nps_score', n)}
                             onKeyDown={e => {
                               if (e.key === 'ArrowRight') set('nps_score', Math.min(n + 1, 10));
@@ -405,8 +500,7 @@ export default function FeedbackForm() {
                       })}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748B', padding: '0 4px' }} aria-hidden="true">
-                      <span>Not at all likely</span>
-                      <span>Extremely likely</span>
+                      <span>Not at all likely</span><span>Extremely likely</span>
                     </div>
                     {data.nps_score > 0 && (
                       <p aria-live="polite" style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.875rem', color: '#475569', fontWeight: 600 }}>
@@ -421,59 +515,12 @@ export default function FeedbackForm() {
                   </div>
                 </div>
 
-                {/* Q3–Q7: Star Ratings */}
-                <div style={{ marginBottom: '1.5rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-                  <SectionHeader>How would you rate us on the following? *</SectionHeader>
-                  <div style={{ background: '#FFFFFF' }}>
-                    {RATING_QUESTIONS.map((q, idx) => (
-                      <div
-                        key={q.field}
-                        data-error={!!errors[q.field]}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: '1.25rem',
-                          padding: '1.1rem 1.25rem',
-                          borderTop: idx > 0 ? '1px solid #E2E8F0' : 'none',
-                          flexWrap: 'wrap',
-                        }}
-                      >
-                        <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
-                          <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
-                            {q.label} <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
-                          </p>
-                          <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>
-                            {q.question}
-                          </p>
-                          {errors[q.field] && (
-                            <p role="alert" style={{ color: '#DC2626', fontSize: '0.775rem', marginTop: '0.25rem', fontWeight: 600 }}>
-                              ⚠ {errors[q.field]}
-                            </p>
-                          )}
-                        </div>
-                        <div
-                          role="group"
-                          aria-label={`Rating for ${q.label}`}
-                          style={{ flex: 1, display: 'flex', gap: '0.4rem', minWidth: 220 }}
-                        >
-                          {STAR_OPTIONS.map(opt => (
-                            <StarCard
-                              key={opt.value}
-                              value={opt.value}
-                              selected={data[q.field] === opt.value}
-                              onClick={v => set(q.field, v)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Improvement (optional) */}
+                {/* Improvement Suggestions */}
                 <div style={{ marginBottom: '2rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-                  <SectionHeader>Any suggestions for improvement?</SectionHeader>
+                  <SectionHeader>Improvement Suggestions</SectionHeader>
                   <div style={{ background: '#FFFFFF', padding: '1.5rem' }}>
                     <label htmlFor="improvement_area" style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '0.9rem', color: '#1E293B' }}>
-                      If there is one area where you'd like to see us improve, what would it be?{' '}
+                      Is there anything that you want us to focus on to serve you better?{' '}
                       <span style={{ color: '#64748B', fontWeight: 400 }}>(Optional)</span>
                     </label>
                     <textarea
@@ -494,7 +541,7 @@ export default function FeedbackForm() {
               </>
             )}
 
-            {/* Submit — shown once a quality option is selected */}
+            {/* Submit */}
             {data.overall_quality && (
               <>
                 {submitError && (
@@ -502,9 +549,7 @@ export default function FeedbackForm() {
                     ⚠ {submitError}
                   </div>
                 )}
-                <button
-                  type="submit"
-                  disabled={submitting}
+                <button type="submit" disabled={submitting}
                   style={{
                     width: '100%', padding: '0.9rem',
                     background: '#C2410C', color: '#fff',
@@ -514,8 +559,7 @@ export default function FeedbackForm() {
                     opacity: submitting ? 0.8 : 1,
                     transition: 'background 0.2s, box-shadow 0.2s',
                     boxShadow: '0 4px 12px rgba(194,65,12,0.3)',
-                  }}
-                >
+                  }}>
                   {submitting
                     ? <><span className="spinner" aria-hidden="true" style={{ marginRight: 8 }} />Submitting…</>
                     : 'Submit Feedback →'}

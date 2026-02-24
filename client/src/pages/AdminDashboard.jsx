@@ -57,8 +57,7 @@ function QualityBadge({ value }) {
     <span style={{
       background: style.bg, color: style.color,
       padding: '2px 8px', borderRadius: 999,
-      fontSize: '0.75rem', fontWeight: 700,
-      whiteSpace: 'nowrap',
+      fontSize: '0.75rem', fontWeight: 700, whiteSpace: 'nowrap',
     }}>{value}</span>
   );
 }
@@ -244,7 +243,7 @@ export default function AdminDashboard() {
             {stats ? (
               <>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: '1rem', marginBottom: '2rem' }}>
-                  <StatCard value={stats.total}               label="Total Responses"       accent />
+                  <StatCard value={stats.total}               label="Total Responses"         accent />
                   <StatCard value={stats.avg_overall}         label="Overall Score (avg)" />
                   <StatCard value={stats.avg_nps}             label="Avg Recommendation Score" />
                   <StatCard value={stats.below_average_count} label="Below Average Ratings" />
@@ -253,11 +252,10 @@ export default function AdminDashboard() {
                 <div style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 12, padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
                   <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', color: '#0F172A' }}>Category Averages</h2>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: '1rem' }}>
-                    <StatCard value={stats.avg_scope}         label="Testing Scope" />
-                    <StatCard value={stats.avg_communication} label="Communication" />
-                    <StatCard value={stats.avg_delivery}      label="Timely Delivery" />
-                    <StatCard value={stats.avg_accuracy}      label="Accuracy & Quality" />
-                    <StatCard value={stats.avg_ownership}     label="Ownership" />
+                    <StatCard value={stats.avg_scope}         label="Quality of Testing" />
+                    <StatCard value={stats.avg_communication} label="Comm. & Responsiveness" />
+                    <StatCard value={stats.avg_ownership}     label="Accountability & Ownership" />
+                    <StatCard value={stats.avg_accuracy}      label="Innovation & Solutioning" />
                   </div>
                 </div>
               </>
@@ -284,12 +282,11 @@ export default function AdminDashboard() {
                         <SortTh field="full_name">Name</SortTh>
                         <th scope="col" style={thStyle}>Email</th>
                         <SortTh field="overall_quality">Overall Quality</SortTh>
-                        <th scope="col" style={thStyle}>Scope</th>
-                        <th scope="col" style={thStyle}>Comm.</th>
-                        <th scope="col" style={thStyle}>Delivery</th>
-                        <th scope="col" style={thStyle}>Accuracy</th>
-                        <th scope="col" style={thStyle}>Ownership</th>
-                        <SortTh field="nps_score">Rec.Score</SortTh>
+                        <th scope="col" style={thStyle}>Quality of Testing</th>
+                        <th scope="col" style={thStyle}>Comm. & Resp.</th>
+                        <th scope="col" style={thStyle}>Accountability</th>
+                        <th scope="col" style={thStyle}>Innovation</th>
+                        <SortTh field="nps_score">Rec. Score</SortTh>
                         <th scope="col" style={thStyle}>Improvement</th>
                         <th scope="col" style={thStyle}>Status</th>
                         <SortTh field="submitted_at">Date</SortTh>
@@ -297,7 +294,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody>
                       {feedback.length === 0 ? (
-                        <tr><td colSpan="12" style={{ textAlign: 'center', color: '#94A3B8', padding: '3rem' }}>No submissions yet.</td></tr>
+                        <tr><td colSpan="11" style={{ textAlign: 'center', color: '#94A3B8', padding: '3rem' }}>No submissions yet.</td></tr>
                       ) : feedback.map(row => (
                         <tr key={row.id}>
                           <td style={{ ...tdStyle, color: '#0F172A' }}><strong>{row.full_name}</strong></td>
@@ -305,9 +302,8 @@ export default function AdminDashboard() {
                           <td style={tdStyle}><QualityBadge value={row.overall_quality} /></td>
                           <td style={tdStyle}><RatingPill v={row.rating_scope} /></td>
                           <td style={tdStyle}><RatingPill v={row.rating_communication} /></td>
-                          <td style={tdStyle}><RatingPill v={row.rating_delivery} /></td>
-                          <td style={tdStyle}><RatingPill v={row.rating_accuracy} /></td>
                           <td style={tdStyle}><RatingPill v={row.rating_ownership} /></td>
+                          <td style={tdStyle}><RatingPill v={row.rating_accuracy} max={10} /></td>
                           <td style={tdStyle}><RatingPill v={row.nps_score} max={10} /></td>
                           <td style={{ ...tdStyle, maxWidth: 200 }}>
                             {row.improvement_area
