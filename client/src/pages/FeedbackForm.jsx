@@ -225,7 +225,7 @@ export default function FeedbackForm() {
               <p style={{ color: '#475569', marginBottom: '0.5rem' }}>
                 {isBelow
                   ? 'We sincerely appreciate you taking the time to share your experience with us. Your feedback is important, and we are committed to reviewing it carefully and making the necessary improvements.'
-                  : 'Your feedback has been received. We truly value your time and input — it helps us grow and serve you better.'}
+                  : 'Your feedback has been received. We truly value your time and input — it will definitely help us grow and serve you better.'}
               </p>
               <p style={{ fontSize: '0.875rem', color: '#94A3B8', marginTop: '1rem' }}>
                 — The SDET Tech Team
@@ -246,7 +246,7 @@ export default function FeedbackForm() {
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1 style={{ marginBottom: '0.5rem', color: '#0F172A' }}>Share Your Feedback</h1>
             <p style={{ color: '#475569', fontSize: '0.9375rem' }}>
-              Your experience matters to us. Please answer the questions below.
+              Your experience matters to us — your feedback helps us serve you better.
             </p>
             <p style={{ color: '#C2410C', fontSize: '0.8125rem', marginTop: '0.35rem', fontWeight: 600 }}>
               * Required information
@@ -287,7 +287,7 @@ export default function FeedbackForm() {
                 {/* Work Email */}
                 <div data-error={!!errors.work_email}>
                   <label htmlFor="work_email" style={{ display: 'block', fontWeight: 600, marginBottom: '0.35rem', fontSize: '0.9rem', color: '#1E293B' }}>
-                    Work Email <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+                    Email <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
                   </label>
                   <input
                     id="work_email" type="email"
@@ -419,7 +419,7 @@ export default function FeedbackForm() {
                           Innovation and Solutioning <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
                         </p>
                         <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>
-                          On a scale of 1–10, how do you rate our solution and innovation that has impacted the outcomes in your projects?
+                          On a scale of 1–10, how do you rate our innovation and solutions that has impacted the outcomes in your projects?
                         </p>
                         {errors.rating_accuracy && (
                           <p role="alert" style={{ color: '#DC2626', fontSize: '0.775rem', marginTop: '0.25rem', fontWeight: 600 }}>
