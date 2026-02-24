@@ -27,11 +27,11 @@ const RATING_QUESTIONS = [
 ];
 
 const STAR_OPTIONS = [
-  { value: 1, label: 'Poor',      color: '#DC2626', bg: '#FEF2F2' },
-  { value: 2, label: 'Average',   color: '#C2410C', bg: '#FFF7ED' },
-  { value: 3, label: 'Good',      color: '#D97706', bg: '#FFFBEB' },
-  { value: 4, label: 'Very Good', color: '#65A30D', bg: '#F7FEE7' },
   { value: 5, label: 'Excellent', color: '#15803D', bg: '#F0FDF4' },
+  { value: 4, label: 'Very Good', color: '#65A30D', bg: '#F7FEE7' },
+  { value: 3, label: 'Good',      color: '#D97706', bg: '#FFFBEB' },
+  { value: 2, label: 'Average',   color: '#C2410C', bg: '#FFF7ED' },
+  { value: 1, label: 'Poor',      color: '#DC2626', bg: '#FEF2F2' },
 ];
 
 const INNOVATION_LABELS = {
