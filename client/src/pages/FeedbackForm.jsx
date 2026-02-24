@@ -357,7 +357,7 @@ export default function FeedbackForm() {
                   We're Sorry to Hear That
                 </p>
                 <p style={{ color: '#78350F', fontSize: '0.9375rem', lineHeight: 1.6 }}>
-                  We sincerely apologise for not meeting your expectations. Your feedback is important to us and we are committed to reviewing it carefully and taking the appropriate steps to improve. We will follow up with you shortly.
+                  We sincerely apologize for not meeting your expectations. Your feedback is important to us and we are committed to reviewing it carefully and taking the appropriate steps to improve. We will follow up with you shortly.
                 </p>
               </div>
             )}
@@ -444,14 +444,14 @@ export default function FeedbackForm() {
                                 aria-pressed={selected}
                                 aria-label={`${n} — ${INNOVATION_LABELS[n]}`}
                                 style={{
-                                  width: 40, height: 40, borderRadius: 8,
-                                  border: selected ? `2px solid ${color}` : '2px solid #CBD5E1',
-                                  background: selected ? bg : '#F8FAFC',
-                                  color: selected ? color : '#475569',
-                                  fontWeight: 700, fontSize: '0.9rem',
-                                  cursor: 'pointer', fontFamily: 'inherit',
-                                  transition: 'all 0.15s',
-                                }}
+  width: 'calc(20% - 4px)', aspectRatio: '1', borderRadius: 8,
+  border: selected ? `2px solid ${color}` : '2px solid #CBD5E1',
+  background: selected ? bg : '#F8FAFC',
+  color: selected ? color : '#475569',
+  fontWeight: 700, fontSize: '0.9rem',
+  cursor: 'pointer', fontFamily: 'inherit',
+  transition: 'all 0.15s',
+}}
                               >{n}</button>
                             );
                           })}
