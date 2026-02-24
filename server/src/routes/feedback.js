@@ -5,8 +5,8 @@ router.post('/', async (req, res) => {
   try {
     const {
       full_name, work_email, overall_quality,
-      rating_scope, rating_communication, rating_delivery,
-      rating_accuracy, rating_ownership, nps_score, improvement_area,
+      rating_scope, rating_communication, rating_ownership,
+      rating_accuracy, nps_score, improvement_area,
     } = req.body;
 
     if (!full_name || !full_name.trim())
@@ -23,10 +23,16 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Please select an overall quality rating.' });
 
     if (overall_quality !== 'Below Average') {
-      const ratings = [rating_scope, rating_communication, rating_delivery, rating_accuracy, rating_ownership];
-      if (ratings.some(r => !r || Number(r) < 1 || Number(r) > 5))
+      // Star ratings (1-5): scope, communication, ownership
+      const starRatings = [rating_scope, rating_communication, rating_ownership];
+      if (starRatings.some(r => !r || Number(r) < 1 || Number(r) > 5))
         return res.status(400).json({ error: 'All star ratings must be between 1 and 5.' });
 
+      // Innovation score (1-10)
+      if (!rating_accuracy || Number(rating_accuracy) < 1 || Number(rating_accuracy) > 10)
+        return res.status(400).json({ error: 'Please select an innovation score between 1 and 10.' });
+
+      // Recommendation score (1-10)
       if (!nps_score || Number(nps_score) < 1 || Number(nps_score) > 10)
         return res.status(400).json({ error: 'Please select a recommendation score between 1 and 10.' });
     }

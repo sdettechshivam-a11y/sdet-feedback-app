@@ -18,8 +18,8 @@ app.use(express.json({ limit: '10kb' }));
 
 // Rate limiting on feedback submission
 const feedbackLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
+  windowMs: 60 * 60 * 1000,
+  max: 500,
   message: { error: 'Too many submissions. Please try again later.' }
 });
 
