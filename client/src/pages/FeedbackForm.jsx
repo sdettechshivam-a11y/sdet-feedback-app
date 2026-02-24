@@ -419,7 +419,7 @@ export default function FeedbackForm() {
                           Innovation and Solutioning <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
                         </p>
                         <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>
-                          On a scale of 1–10, how do you rate our innovation and solutions that has impacted the outcomes in your projects?
+                          On a scale of 1–10, how do you rate our innovation and solutions that has impacted the outcomes in corresponding projects?
                         </p>
                         {errors.rating_accuracy && (
                           <p role="alert" style={{ color: '#DC2626', fontSize: '0.775rem', marginTop: '0.25rem', fontWeight: 600 }}>
