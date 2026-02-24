@@ -27,26 +27,25 @@ router.get('/export', async (req, res) => {
   try {
     const rows = await db.getAllFeedback();
     const headers = [
-      'ID', 'Full Name', 'Work Email', 'Overall Quality',
-      'Testing Scope (1-5)', 'Communication (1-5)', 'Timely Delivery (1-5)',
-      'Accuracy & Quality (1-5)', 'Ownership (1-5)', 'Recommendation Score (1-10)',
-      'Improvement Area', 'Duplicate', 'Submitted At',
-    ];
+  'ID', 'Full Name', 'Work Email', 'Overall Quality',
+  'Quality of Testing (1-5)', 'Communication & Responsiveness (1-5)',
+  'Accountability & Ownership (1-5)', 'Innovation & Solutioning (1-10)',
+  'Recommendation Score (1-10)', 'Improvement Area', 'Duplicate', 'Submitted At',
+];
     const csvRows = rows.map(r => [
-      r.id,
-      `"${r.full_name}"`,
-      r.work_email,
-      r.overall_quality,
-      r.rating_scope         ?? 'N/A',
-      r.rating_communication ?? 'N/A',
-      r.rating_delivery      ?? 'N/A',
-      r.rating_accuracy      ?? 'N/A',
-      r.rating_ownership     ?? 'N/A',
-      r.nps_score            ?? 'N/A',
-      `"${(r.improvement_area || '').replace(/"/g, '""')}"`,
-      r.is_duplicate ? 'Yes' : 'No',
-      r.submitted_at,
-    ].join(','));
+  r.id,
+  `"${r.full_name}"`,
+  r.work_email,
+  r.overall_quality,
+  r.rating_scope          ?? 'N/A',
+  r.rating_communication  ?? 'N/A',
+  r.rating_ownership      ?? 'N/A',
+  r.rating_accuracy       ?? 'N/A',
+  r.nps_score             ?? 'N/A',
+  `"${(r.improvement_area || '').replace(/"/g, '""')}"`,
+  r.is_duplicate ? 'Yes' : 'No',
+  r.submitted_at,
+].join(','));
     const csv = [headers.join(','), ...csvRows].join('\n');
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename="sdet_feedback_export.csv"');
