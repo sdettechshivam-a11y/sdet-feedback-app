@@ -379,10 +379,12 @@ export default function FeedbackForm() {
                         }}>
                         <div style={{ flex: '0 0 210px', minWidth: '160px' }}>
                           <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1E293B', marginBottom: '2px' }}>
-                            <span style={{ display: 'inline', whiteSpace: 'nowrap' }}>
-  {q.label} <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
-</span>
-                          </p>
+  {q.label.split(' ').slice(0, -1).join(' ')}{' '}
+  <span style={{ whiteSpace: 'nowrap' }}>
+    {q.label.split(' ').slice(-1)[0]}{' '}
+    <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+  </span>
+</p>
                           <p style={{ fontSize: '0.775rem', color: '#64748B', lineHeight: 1.4 }}>{q.question}</p>
                           {errors[q.field] && (
                             <p role="alert" style={{ color: '#DC2626', fontSize: '0.775rem', marginTop: '0.25rem', fontWeight: 600 }}>
