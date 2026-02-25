@@ -246,18 +246,19 @@ export default function FeedbackForm() {
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1 style={{ marginBottom: '0.5rem', color: '#0F172A' }}>Share Your Feedback</h1>
             <p style={{ color: '#475569', fontSize: '0.9375rem' }}>
-              Your experience matters to us — your feedback will help us improve.
+              Your voice shapes our success—tell us how we can serve you better.
             </p>
-            <p style={{ color: '#C2410C', fontSize: '0.8125rem', marginTop: '0.35rem', fontWeight: 600 }}>
-              * Required information
-            </p>
+            
           </div>
 
           <form onSubmit={handleSubmit} noValidate aria-label="Client feedback form">
 
             {/* SECTION 1 — Details + Overall Quality */}
-            <div style={{ marginBottom: '1.5rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-              <SectionHeader>Your Details *</SectionHeader>
+            <p style={{ fontSize: '0.8125rem', color: '#C2410C', fontWeight: 600, marginBottom: '0.5rem' }}>
+  Fields marked with <span aria-hidden="true">*</span> are required.
+</p>
+<div style={{ marginBottom: '1.5rem', border: '1px solid #CBD5E1', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+  <SectionHeader>Your Details *</SectionHeader>
               <div style={{ background: '#FFFFFF', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
 
                 {/* Full Name */}
