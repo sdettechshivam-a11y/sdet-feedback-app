@@ -160,6 +160,7 @@ export default function FeedbackForm() {
   const [submitting, setSubmitting]   = useState(false);
   const [submitted, setSubmitted]     = useState(false);
   const [submitError, setSubmitError] = useState('');
+const [consent, setConsent]         = useState(false);
 
   const isBelow      = data.overall_quality === 'Below Average';
   const showFullForm = ['Exceptional', 'Above Average', 'Average'].includes(data.overall_quality);
@@ -552,22 +553,50 @@ export default function FeedbackForm() {
             {/* Submit */}
             {data.overall_quality && (
               <>
+              <div style={{
+      background: '#FFFFFF', border: '1px solid #CBD5E1',
+      borderRadius: 8, padding: '1rem 1.25rem',
+      marginBottom: '1rem', display: 'flex',
+      alignItems: 'flex-start', gap: '0.75rem',
+    }}>
+      <input
+        id="consent"
+        type="checkbox"
+        checked={consent}
+        onChange={e => setConsent(e.target.checked)}
+        aria-required="true"
+        style={{
+          width: 18, height: 18, marginTop: '2px',
+          accentColor: '#C2410C', cursor: 'pointer',
+          flexShrink: 0,
+        }}
+      />
+      <label htmlFor="consent" style={{
+        fontSize: '0.875rem', color: '#1E293B',
+        lineHeight: 1.5, cursor: 'pointer',
+      }}>
+        I agree that SDET Tech may store and use my feedback to improve their services.{' '}
+        <span aria-hidden="true" style={{ color: '#C2410C' }}>*</span>
+      </label>
+    </div>
                 {submitError && (
                   <div role="alert" style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 6, padding: '0.75rem 1rem', marginBottom: '1rem', color: '#DC2626', fontSize: '0.9rem', fontWeight: 600 }}>
                     ⚠ {submitError}
                   </div>
                 )}
-                <button type="submit" disabled={submitting}
-                  style={{
-                    width: '100%', padding: '0.9rem',
-                    background: '#C2410C', color: '#fff',
-                    border: 'none', borderRadius: 8,
-                    fontSize: '1.0625rem', fontWeight: 700, fontFamily: 'inherit',
-                    cursor: submitting ? 'not-allowed' : 'pointer',
-                    opacity: submitting ? 0.8 : 1,
-                    transition: 'background 0.2s, box-shadow 0.2s',
-                    boxShadow: '0 4px 12px rgba(194,65,12,0.3)',
-                  }}>
+                <button type="submit" disabled={submitting || !consent}
+  aria-disabled={!consent}
+  style={{
+    width: '100%', padding: '0.9rem',
+    background: !consent ? '#94A3B8' : '#C2410C',
+    color: '#fff',
+    border: 'none', borderRadius: 8,
+    fontSize: '1.0625rem', fontWeight: 700, fontFamily: 'inherit',
+    cursor: (submitting || !consent) ? 'not-allowed' : 'pointer',
+    opacity: submitting ? 0.8 : 1,
+    transition: 'background 0.2s, box-shadow 0.2s',
+    boxShadow: !consent ? 'none' : '0 4px 12px rgba(194,65,12,0.3)',
+  }}>
                   {submitting
                     ? <><span className="spinner" aria-hidden="true" style={{ marginRight: 8 }} />Submitting…</>
                     : 'Submit Feedback →'}
